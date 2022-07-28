@@ -13,15 +13,35 @@ const btnNew = document.querySelector('.btn--new')
 const btnRoll = document.querySelector('.btn--roll')
 const btnHold = document.querySelector('.btn--hold')
 
-score0El.textContent = 0
-score1El.textContent = 0
-diceEl.classList.add('hidden')
+// Starting conditions
 
-const scores = [0, 0]
+let scores = [0, 0]
 let currentScore = 0
 let activePlayer = 0
 
 let playing = true
+
+const init = () => {
+  playing = true
+  scores = [0, 0]
+
+  currentScore = 0
+  activePlayer = 0
+
+  score0El.textContent = 0
+  score1El.textContent = 0
+  current0El.textContent = 0
+  current1El.textContent = 0
+
+  player0El.classList.remove('player--winner')
+  player1El.classList.remove('player--winner')
+  player0El.classList.add('player--active')
+  player1El.classList.remove('player--active')
+
+  diceEl.classList.add('hidden')
+}
+
+init()
 
 const switchPlayer = () => {
   document.getElementById(`current--${activePlayer}`).textContent = 0
@@ -36,7 +56,6 @@ btnRoll.addEventListener('click', () => {
   if (playing) {
     // Generate random dice roll
     const dice = Math.trunc(Math.random() * 6) + 1
-    console.log(dice)
     // Display dice
     diceEl.classList.remove('hidden')
     diceEl.src = `dice-${dice}.png`
@@ -63,7 +82,7 @@ btnHold.addEventListener('click', () => {
       scores[activePlayer]
 
     // Check if total score is >= 100 -> Finish game
-    if (scores[activePlayer] >= 100) {
+    if (scores[activePlayer] >= 10) {
       playing = false
       diceEl.classList.add('hidden')
       document
@@ -78,3 +97,5 @@ btnHold.addEventListener('click', () => {
     }
   }
 })
+
+btnNew.addEventListener('click', init)
